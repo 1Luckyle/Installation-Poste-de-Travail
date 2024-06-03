@@ -1,0 +1,259 @@
+***********************************************
+BARNOUIN Clément - TP1 : Installation d'un poste de travail
+***********************************************
+
+2. Préparation l'installation
+==============================================
+
+2.1 Image ISO de Debian
+-------------------
+
+1.
+https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-dvd/
+
+2.
+barnouic@pc-dg-035-12:~$ cd /usr/local/images-ISO/
+barnouic@pc-dg-035-12:/usr/local/images-ISO$ ls -l
+total 8823196
+-rw-r--r-- 1 root staff         44 11 juil. 20:58 CACHEDIR.TAG
+-rw-r--r-- 1 root staff 3981279232  7 oct.  18:08 debian-11.8.0-amd64-DVD-1.iso
+
+3.
+https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-dvd/SHA512SUMS
+Empreinte SHA512 :
+dee200440ee7995d311f06ba906797625683d36df903c5ddd0d21e917d8f4507629aad1f83e13b9cf8d14113dc3e79dc7bf4e32634757195f025312a5d260631  debian-11.8.0-amd64-DVD-1.iso
+
+4.
+Empreinte SHA512 :
+barnouic@pc-dg-035-12:/usr/local/images-ISO$ sha512sum debian-11.8.0-amd64-DVD-1.iso 
+dee200440ee7995d311f06ba906797625683d36df903c5ddd0d21e917d8f4507629aad1f83e13b9cf8d14113dc3e79dc7bf4e32634757195f025312a5d260631  debian-11.8.0-amd64-DVD-1.iso
+
+5.
+Les empreintes sont les mêmes.
+
+
+2.2 Image disque pour la machine virtuelle
+-------------------
+
+1.
+barnouic@pc-dg-035-12:~$ S1.03-crée-image-disque debian11
+Création de l'image disque dans le fichier suivant:
+
+  /donnees/TP-infobut1/S1.03-Debian-11-barnouic.img
+
+Formatting '/donnees/TP-infobut1/S1.03-Debian-11-barnouic.img', fmt=raw size=34359738368
+Fini.
+
+2.
+Le nom du fichier contenant l'image disque de la machine virtuelle est :
+/donnees/TP-infobut1/S1.03-Debian-11-barnouic.img
+
+3.
+barnouic@pc-dg-035-12:/donnees/TP-infobut1$ ncdu
+6,8 GiB [################]  S1.03-Debian-11-marcouxj.img
+4,0 KiB [                ]  S1.03-Debian-11-barnouic.img
+
+4.
+pc-dg-035-12
+
+5.
+barnouic@pc-dg-035-12:/usr/local/images-ISO$ S1.03-lance-machine-virtuelle debian11
+Image disque trouvée sur le disque de cette station Linux.
+
+6.
+Message d'erreur : No bootable device.
+
+
+3. Installer le système Debian
+==============================================
+
+1.
+barnouic@pc-dg-035-12:~$ S1.03-lance-installation debian11
+Image disque trouvée sur le disque de cette station Linux.
+Installation à partir de cette image ISO:
+  /usr/local/images-ISO/debian-11.8.0-amd64-DVD-1.iso
+
+2.
+Parametrage de l'installation selon les caractéristiques indiqués du TP.
+Mot de passe : root
+fullname / login : barnouic
+password : barnouin
+
+3.
+Installation finie.
+
+
+4. Compléter le système Debian
+==============================================
+
+barnouic@pc-dg-035-12:~$ S1.03-lance-machine-virtuelle debian11
+Image disque trouvée sur le disque de cette station Linux.
+
+
+4.1 Plasma et résolution
+-------------------
+
+1.
+Ouverture de Plasma.
+
+2.
+Accès à Info Center pour les informations sur l'installation
+
+3.
+System Settings -> Display and Monitor -> Resolution "1440*900"
+
+4.
+Chercher Konsole dans le menu, clique droit puis add widget to panel
+
+
+4.2 Exploration des packages installés et installables
+-------------------
+
+1.
+Lister tous les packages : dpkg -l
+
+2.
+Lister le nombre de package : dpkg -l | wc
+
+3.
+Lister tous les packages avec le mot pdf : dpkg -l | grep pdf
+
+4.
+Lister à quel package appartient le fichier : dpkg -S /bin/cp
+
+5.
+Lister les métadonnées d'un package : dpkg -s coreutils 
+Version : 8.32-4+b1
+
+6.
+Lister tous les fichiers appartenant à un package : dpkg -L coreutils
+
+7.
+Dans les répertoires : /usr/share
+
+8.
+apt-cache search . | wc
+Il y a 58 627 packages
+
+
+4.3 Mise en place de sudo
+-------------------
+
+1.
+su -
+
+2.
+Mot de passe root.
+
+3.
+Lancement d'un sheel avec les privilèges root
+
+4.
+addgroup barnouic sudo
+
+5.
+Relancer la machine.
+
+6.
+sudo -i
+
+7.
+Mot de passe login.
+
+8.
+# xeyes (vérifier si les commandes ont marchés)
+
+9.
+Penser à ouvrir un terminal root et un terminal classique.
+
+
+4.4 Configuration du gestionnaire de packages apt
+-------------------
+
+1.
+# nano /etc/apt/sources.list
+
+2.
+Ctrl-k : Supprimer toute une ligne dans nano
+
+3.
+Ctrl-s : Sauver le fichier nano
+
+4.
+Ctrl-x : Quitter nano
+
+
+4.5 Gestion de packages
+-------------------
+
+1.
+df -h
+
+2.
+24.37Go
+
+3.
+Màj de sécurité avec ces commandes 
+# apt update
+# apt upgrade
+# apt clean
+
+4.
+Supprimer des packages inutiles : # apt purge modemmanager speech-dispatcher kdeconnect
+
+5.
+Supprimer tout les packages devenus inutiles : # apt autopurge
+
+6.
+...
+
+7.
+# apt install gedit
+# apt clean
+
+8.
+...
+
+9.
+...
+
+10.
+gedit
+Gedit marche
+
+11.
+gedit /etc/hostname
+
+12.
+En lancant en root on peut save.
+
+
+4.6 Amélioration du shell bash
+-------------------
+
+1.
+# apt install command-not-found
+
+2.
+# apt update
+
+3.
+psql
+Commande non trouvée.
+
+4.
+psql -h postgres-info.iut2.univ-grenoble-alpes.fr -U invite zoo
+Manque un fichier
+
+5.
+Effectué sur le package suggéré.
+
+6.
+Manque un fichier.
+
+7.
+# apt search postgresql-client
+# apt install postgresql-client-common
+
+8.
+psql -h postgres-info.iut2.univ-grenoble-alpes.fr -U invite zoo
